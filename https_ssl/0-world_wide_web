@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-#SCript that shows information about subdomains
-if [ $# -eq 1 ]; then
-    for subdomain in "www" "lb-01" "web-01" "web-02"}; do
-        record_type="$(dig "$subdomain.$1" | grep -A1 'ANSWER SECTION:' | tail -1 | awk '{print $4}')"
-        destination_ip="$(dig "$subdomain.$1" | grep -A1 'ANSWER SECTION:' | tail -1 | awk '{print $5}')"
-        echo "The subdomain $subdomain is a $record_type record and points to $destination_ip"
-    done
-else
-    subdomain="$2"
-    record_type="$(dig "$subdomain.$1" | grep -A1 'ANSWER SECTION:' | tail -1 | awk '{print $4}')"
-    destination_ip="$(dig "$subdomain.$1" | grep -A1 'ANSWER SECTION:' | tail -1 | awk '{print $5}')"
-    echo "The subdomain $subdomain is a $record_type record and points to $destination_ip"
+# a Bash script that transfers a file from our client to a server
+
+if [ $# -lt 4 ]; then
+ echo "Usage: $1 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+ exit 1
 fi
+#set up
+PATH_TO_FILE="$1"
+IP="$2"
+USERNAME="$3"
+PATH_TO_SSH_KEY="$4"
+#transfer
+scp -o "StrictHostKeyChecking no" -i "$PATH_TO_SSH_KEY" "$PATH_TO_FILE" "$USERNAME@$IP:~/"
