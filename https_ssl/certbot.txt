@@ -1,0 +1,11 @@
+sudo certbot certonly --standalone -d www.thephiligii.tech
+sudo systemctl stop nginx 
+sudo service haproxy stop 
+
+ /etc/letsencrypt/live/www.thephiligii.tech/fullchain.pem ///certificate and chain
+ /etc/letsencrypt/live/www.thephiligii.tech/privkey.pem   ///private key
+
+/etc/systemd/system/timers.target.wants/certbot.timer → /lib/systemd/system/certbot.timer. 
+
+Copy prikey to fullchain 
+fix config file 
